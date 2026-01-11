@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reminder App</title>
+  <link rel="manifest" href="menifest.json" />
+
+</head>
+<body>
+
+  <h2>🔔 Reminder App</h2>
+
+  <input type="text" id="title" placeholder="Reminder title" />
+  <br><br>
+
+  <input type="datetime-local" id="time" />
+  <br><br>
+
+  <button id="setReminder">Set Reminder</button>
+
+  <p id="status"></p>
+
+  <script src="js/sw-register.js"></script>
+  <script src="js/push.js"></script>
+
+  <script src="js/app.js"></script>
+  
+</body>
+</html>
