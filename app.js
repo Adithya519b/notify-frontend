@@ -21,7 +21,7 @@ button.addEventListener("click", async () => {
 
   const subscription = await registration.pushManager.getSubscription();
 
-  await fetch("https://notify-37l1.onrender.com/reminder", {
+  await fetch("https://notify-backend-7i6s.onrender.com/reminder", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title, time, subscription })
