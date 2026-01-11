@@ -22,7 +22,7 @@ async function subscribeToPush() {
   console.log("📌 Push Subscription:", subscription);
 
   // SEND TO BACKEND
-  await fetch("http://localhost:3000/subscribe", {
+  await fetch("https://notify-37l1.onrender.com/subscribe", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
