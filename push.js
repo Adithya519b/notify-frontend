@@ -1,4 +1,5 @@
-const VAPID_PUBLIC_KEY = "BAjfTioO3MTqlkLD3jMZoHnX89kAdQ17tSVY7pmA-QjHzSiVKmzxrnmouTqvRDSqycvUNgDPsKm7E6SY6GtZ5lk";
+const VAPID_PUBLIC_KEY =
+  "BAjfTioO3MTqlkLD3jMZoHnX89kAdQ17tSVY7pmA-QjHzSiVKmzxrnmouTqvRDSqycvUNgDPsKm7E6SY6GtZ5lk";
 
 // Convert base64 key
 function urlBase64ToUint8Array(base64String) {
@@ -21,12 +22,12 @@ async function subscribeToPush() {
 
   console.log("📌 Push Subscription:", subscription);
 
-  // SEND TO BACKEND
+  // Send subscription to backend
   await fetch("https://notify-backend-7i6s.onrender.com/subscribe", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(subscription)
   });
+
+  console.log("📌 Subscription sent to backend");
 }
