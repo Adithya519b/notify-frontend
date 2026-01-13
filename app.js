@@ -1,7 +1,7 @@
 const statusText = document.getElementById("status");
 const button = document.getElementById("setReminder");
-button.addEventListener("click", async () => {
 
+button.addEventListener("click", async () => {
   const title = document.getElementById("title").value;
   const time = document.getElementById("time").value;
 
@@ -11,24 +11,29 @@ button.addEventListener("click", async () => {
   }
 
   const permission = await Notification.requestPermission();
-
   if (permission !== "granted") {
     alert("Notification permission required");
     return;
   }
 
-  const registration = await navigator.serviceWorker.ready;
+  // ✅ STEP 1: Subscribe FIRST
+  await subscribeToPush();
 
-  const subscription = await registration.pushManager.getSubscription();
+  // ✅ STEP 2: Send reminder (NO subscription here)
+  const res = await fetch(
+    "https://notify-backend-7i6s.onrender.com/reminder",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, time })
+    }
+  );
 
-  await fetch("https://notify-backend-7i6s.onrender.com/reminder", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title, time, subscription })
-  });
+  if (!res.ok) {
+    const err = await res.json();
+    alert("Error: " + err.error);
+    return;
+  }
 
-  document.getElementById("status").innerText =
-    "⏰ Reminder set successfully";
+  statusText.innerText = "⏰ Reminder set successfully";
 });
-
-

@@ -1,7 +1,5 @@
-const VAPID_PUBLIC_KEY =
-  "BAjfTioO3MTqlkLD3jMZoHnX89kAdQ17tSVY7pmA-QjHzSiVKmzxrnmouTqvRDSqycvUNgDPsKm7E6SY6GtZ5lk";
+const VAPID_PUBLIC_KEY = "BAjfTioO3MTqlkLD3jMZoHnX89kAdQ17tSVY7pmA-QjHzSiVKmzxrnmouTqvRDSqycvUNgDPsKm7E6SY6GtZ5lk";
 
-// Convert base64 key
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
@@ -15,14 +13,15 @@ function urlBase64ToUint8Array(base64String) {
 async function subscribeToPush() {
   const registration = await navigator.serviceWorker.ready;
 
-  const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-  });
+  let subscription = await registration.pushManager.getSubscription();
 
-  console.log("📌 Push Subscription:", subscription);
+  if (!subscription) {
+    subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+    });
+  }
 
-  // Send subscription to backend
   await fetch("https://notify-backend-7i6s.onrender.com/subscribe", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
